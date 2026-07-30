@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tradutor de Código Morse (AFD)</title>
+    <meta name="description" content="Tradutor de Código Morse utilizando Autômato Finito Determinístico (AFD)">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS and JS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-elements">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+        <div class="glow-orb orb-3"></div>
+    </div>
+
+    <main class="container">
+        <header class="header">
+            <h1>Código Morse <span>&rarr;</span> ASCII</h1>
+            <p>Tradução em tempo real processada por um <strong>Autômato Finito Determinístico (AFD)</strong>.</p>
+            <p style="margin-top: 0.5rem; font-size: 0.95rem; color: var(--accent-secondary);">Desenvolvido por: <strong>Matheus Nogueira Albuquerque</strong></p>
+        </header>
+
+        <section class="translator-grid">
+            
+            <!-- Input Area -->
+            <div class="panel input-panel glass">
+                <div class="panel-header">
+                    <h2>Entrada</h2>
+                    <span class="badge">Morse</span>
+                </div>
+                <div class="textarea-wrapper">
+                    <textarea 
+                        id="morse-input" 
+                        placeholder="Digite o código morse aqui...&#10;Ex: .... --- .-.. .-" 
+                        spellcheck="false"
+                        autocomplete="off"
+                        autofocus></textarea>
+                </div>
+                <div class="panel-footer">
+                    <small>Alfabeto de Entrada (&Sigma;): <strong>.</strong> (ponto) e <strong>-</strong> (traço)</small>
+                    <div class="action-buttons">
+                        <button id="btn-clear" class="btn btn-secondary">Limpar</button>
+                        <button id="btn-demo" class="btn btn-primary">Testar SOS</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Output Area -->
+            <div class="panel output-panel glass">
+                <div class="panel-header">
+                    <h2>Saída</h2>
+                    <span class="badge">ASCII</span>
+                </div>
+                <div class="output-wrapper">
+                    <div id="ascii-output" class="output-content">
+                        <span class="placeholder-text">A tradução aparecerá aqui...</span>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <small>Aceitação (F): Disparada por <strong>espaço</strong></small>
+                    <div class="status-indicator">
+                        <span class="status-dot"></span>
+                        <span class="status-text" id="status-text">Aguardando entrada (q₀)</span>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Explicação do Código Morse -->
+        <section class="info-section glass">
+            <h3>Como funciona o Código Morse?</h3>
+            <p>
+                O Código Morse é um sistema de comunicação criado no século XIX que representa letras, números e pontuações através de um sinal codificado enviado de modo intermitente. 
+                Ele é composto por duas unidades básicas: o <strong>ponto (.)</strong>, que é um sinal curto, e o <strong>traço (-)</strong>, que é um sinal longo (equivalente a três pontos).
+            </p>
+            <p style="margin-top: 0.5rem;">
+                As letras são formadas por combinações de pontos e traços. Por exemplo, a letra "A" é <code>.-</code> e a letra "E" é apenas <code>.</code>.
+                Para separar as letras de uma mesma palavra, usamos um espaço. Para separar palavras diferentes, usamos 3 espaços (ou uma barra <code>/</code>).
+            </p>
+        </section>
+
+        <!-- DFA Diagram Info -->
+        <section class="info-section glass">
+            <h3>Por baixo dos panos: A Máquina de Estados</h3>
+            <p>
+                Este tradutor não usa um dicionário simples (<code>chave-valor</code>). Ele modela uma <strong>Árvore de Transição (Trie)</strong>. 
+                Cada caractere Morse lido (. ou -) move o cursor para um novo estado interno na árvore através da <em>Função de Transição (&delta;)</em>. 
+                Ao ler um espaço, o sistema verifica se o estado atual é de aceitação, imprime o ASCII, e retorna ao <em>Estado Inicial (q₀)</em>.
+            </p>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
